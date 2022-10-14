@@ -11,11 +11,12 @@ window.addEventListener("load", () => {
   canvas.height = window.innerHeight;
 
   const player = new Player(canvas.width, canvas.height);
-  player.draw(ctx);
   const input = new ImputHandler();
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawStatusText(ctx, input);
+    player.draw(ctx);
+    player.update(input.lastKey);
+    drawStatusText(ctx, input, player);
     requestAnimationFrame(animate);
   }
   animate(0);
