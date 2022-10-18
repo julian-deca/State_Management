@@ -7,6 +7,8 @@ import {
   RunningRight,
   JumpingLeft,
   JumpingRight,
+  FallingLeft,
+  FallingRight,
 } from "./state.js";
 export default class Player {
   constructor(gameWidth, gameHeight) {
@@ -21,6 +23,8 @@ export default class Player {
       new RunningRight(this),
       new JumpingLeft(this),
       new JumpingRight(this),
+      new FallingLeft(this),
+      new FallingRight(this),
     ];
     this.currentState = this.states[1];
     this.image = document.getElementById("dog");
@@ -34,8 +38,11 @@ export default class Player {
     this.maxSpeed = 10;
     this.vy = 0;
     this.weight = 1;
+    this.maxFrame = 5;
   }
   draw(context) {
+    if (this.frameX < this.maxFrame) this.frameX++;
+    else this.frameX = 0;
     context.drawImage(
       this.image,
       this.width * this.frameX,
@@ -60,6 +67,8 @@ export default class Player {
     else {
       this.vy = 0;
     }
+    if (this.y > this.gameHeight - this.height)
+      this.y = this.gameHeight - this.height;
   }
   setState(state) {
     this.currentState = this.states[state];
